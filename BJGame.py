@@ -105,9 +105,11 @@ while True:
     #flop initial cards into a list called flop
     playerHand = []
     dealerHand = []
-    for cards in range(2):
-        playerHand.append(random.choice(deck))
-        dealerHand.append(random.choice(deck))
+    
+    #draw 4 cards without replacement
+    playerHand.append(random.sample(deck, 2))
+    dealerHand.append(random.sample(deck, 2))
+    
     print('You show a ' + str(playerHand[0]) + ' and a ' + str(playerHand[1]))
     print('The dealer is showing a ' + str(dealerHand[0]) + '\n')
 
