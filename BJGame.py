@@ -14,15 +14,18 @@ maxBet = 100
 def placeBet():
     okayToBet = True
     while okayToBet:
-        bet = int(input('What is your bet? '))
-        if bet < minBet:
-            print('Is this your first time? The minimum bet is $5')
-        elif bet > chipCount:
-            print('You better count your chips again')
-        elif bet > maxBet:
-            print('Hold on now, the max is 100')
-        else:
-            return int(bet)
+        try:
+            bet = int(input('What is your bet? \n'))
+            if bet < minBet:
+                print('Is this your first time? The minimum bet is $5')
+            elif bet > chipCount:
+                print('You better count your chips again')
+            elif bet > maxBet:
+                print('Hold on now, the max is 100')
+            else:
+                return int(bet)
+        except ValueError:
+            print('Enter a number only for your bet.')
 
 #Checking to make sure user entered the correct command for hitting or staying
 def ask(x):
@@ -36,29 +39,28 @@ def ask(x):
 
 #Need to play out dealers hand as needed
 def dealerHitCheck():
-    print('Dealer flips second card and shows he has a ' + str(dealerHand[0]) + ' and a ' + str(dealerHand[1]) + ' for a total of: ' + str(sum(dealerHand[:])))
+    print('Dealer flips second card and shows he has a ' + str(dealerHand[0]) + ' and a ' + str(dealerHand[1]) + ' for a total of: ' + str(sum(dealerHand[:])) + '\n')
     while True:
         dh = sum(dealerHand[:])
         if dh > 16:
             return dh
         else:
             dealerHand.append(random.choice(deck))
-            print('Dealer hits and now has: ' + str(sum(dealerHand[:])))
+            print('Dealer hits and now has: ' + str(sum(dealerHand[:])) + '\n')
 
 def playerHit():
+    cardNum = 3
     while True:
-        cardNum = 3
         playerHand.append(random.choice(deck))
-        print('You got a ' + str(playerHand[cardNum-1]) + ' for a total of: ' + str(sum(playerHand[:])))
+        print('You got a ' + str(playerHand[cardNum-1]) + ' for a total of: ' + str(sum(playerHand[:])) + '\n')
         ph = sum(playerHand[:])
         if ph > 21:
             return ph
+        hitStay = ask(input('What would you like to do? Hit or Stay? (Type H or S): \n'))
+        if hitStay == 'Stay':
+            return sum(playerHand[:])
         else:
-            hitStay = ask(input('What would you like to do? Hit or Stay? (Type H or S): '))
-            if hitStay == 'S':
-                return sum(playerHand[:])
-            else:
-                cardNum += 1
+            cardNum += 1
 
 #This gets 2 values p-hand and d-hand to see who wins and return value of win, lose, push
 def whoWon(player1, dealer): # Checking who won the game
@@ -83,8 +85,15 @@ def whoWon(player1, dealer): # Checking who won the game
 
 #######Main program starts here
 #Greeting
+
+print ("-" * 70)
+print ("|" + " " * 68 + "|")
+print ("|" + " " * 25 + "Welcome to BLACKJACK" + " " * 23 + "|")
+print ("|" + " " * 68 + "|")
+print ("-" * 70 + '\n')
+
 name = input('Please enter your name: ')
-print('Hi ' + name + ', have not seen you in a while, pull up a chair! We are playing Blackjack.')
+print('Hi ' + name + ', have not seen you in a while, pull up a chair! We are playing Blackjack. \n')
 
 #Game starts here
 while True:
@@ -100,7 +109,7 @@ while True:
         playerHand.append(random.choice(deck))
         dealerHand.append(random.choice(deck))
     print('You show a ' + str(playerHand[0]) + ' and a ' + str(playerHand[1]))
-    print('The dealer is showing a ' + str(dealerHand[0]))
+    print('The dealer is showing a ' + str(dealerHand[0]) + '\n')
 
     #Ask P1 what they would like to do first do if stay
     hitStay = ask(input('What would you like to do? Hit or Stay? (Type H or S): '))
